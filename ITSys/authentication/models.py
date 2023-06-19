@@ -13,30 +13,24 @@ class CustomUserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
         """
         Create and save a User with the given email and password.
-        :param email:
-        :param password:
-        :param extra_fields:
-        :return: create an user
         """
         if not email:
             raise ValueError(gettext_lazy('The Email must be set.'))
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
+
+        extra_fields.setdefault('is_active', True)
+
         user.save()
         return user
 
     def create_superuser(self, email, password, **extra_fields):
         """
         Create and save a SuperUser with the given email and password.
-        :param email:
-        :param password:
-        :param extra_fields:
-        :return: create a superuser
         """
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_active', True)
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError(gettext_lazy('SuperUser must be a staff member.'))
@@ -48,6 +42,8 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(gettext_lazy('email adress'), unique=True)
+    first_name = models.CharField(max_length=128)
+    last_name = models.CharField(max_length=128)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

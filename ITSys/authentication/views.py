@@ -9,15 +9,13 @@ from .serializers import UserSerializer, MyTokenObtainPairSerializer
 
 
 class RegisterView(APIView):
-    http_method_names = ['post']
 
-    def post(self, *args, **kwargs):
-        serializer = UserSerializer(data=self.request.data)
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             get_user_model().objects.create_user(**serializer.validated_data)
-            return Response(status=HTTP_201_CREATED)
-        return Response(status=HTTP_400_BAD_REQUEST,
-                        data={'errors': serializer.errors})
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
 class EmailTokenObtainPairView(TokenObtainPairView):
