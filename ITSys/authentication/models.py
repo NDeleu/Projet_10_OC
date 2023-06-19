@@ -23,6 +23,8 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_active', True)
 
         user.save()
+        user.user_id = user.pk
+        user.save()
         return user
 
     def create_superuser(self, email, password, **extra_fields):
@@ -44,6 +46,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(gettext_lazy('email adress'), unique=True)
     first_name = models.CharField(max_length=128)
     last_name = models.CharField(max_length=128)
+    user_id = models.IntegerField(null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
