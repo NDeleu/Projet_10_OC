@@ -44,8 +44,8 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     username = None
     email = models.EmailField(gettext_lazy('email adress'), unique=True)
-    first_name = models.CharField(max_length=128)
-    last_name = models.CharField(max_length=128)
+    first_name = models.CharField(max_length=128, verbose_name='prenom')
+    last_name = models.CharField(max_length=128, verbose_name='nom')
     user_id = models.IntegerField(null=True, blank=True)
 
     USERNAME_FIELD = 'email'
