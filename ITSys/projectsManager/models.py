@@ -1,8 +1,11 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 from django.conf import settings
 
 
 class Project(models.Model):
+
+    UserModel = get_user_model()
 
     FRONTEND = 'FRONTEND'
     BACKEND = 'BACKEND'
@@ -16,11 +19,11 @@ class Project(models.Model):
     )
 
     project_id = models.IntegerField(null=True, blank=True)
-    title = models.CharField(max_length=128, verbose_name='titre')
-    description = models.CharField(max_length=2048, verbose_name='description')
+    title = models.CharField(max_length=128, verbose_name='titreproject')
+    description = models.CharField(max_length=2048, verbose_name='descriptionproject')
     type = models.CharField(max_length=16, choices=TYPES_ALT)
     author_user_id = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
+        UserModel,
         through='Contributors',
         related_name='contributs')
 
@@ -30,16 +33,53 @@ class Project(models.Model):
 
 class Issue(models.Model):
 
+    UserModel = get_user_model()
+
+    BUG = 'BUG'
+    IMPROVEMENT = 'IMPROVEMENT'
+    TASK = 'TASK'
+    TAGS_CHOICES = (
+        (BUG, 'Bug'),
+        (IMPROVEMENT, 'Improvement'),
+        (TASK, 'Task')
+    )
+
+    LOW = 'LOW'
+    MEDIUM = 'MEDIUM'
+    HIGH = 'HIGH'
+    PRIORITY_CHOICES = (
+        (LOW, 'Low'),
+        (MEDIUM, 'Medium'),
+        (HIGH, 'High')
+    )
+
+    TODO = 'TODO'
+    WIP = 'WIP'
+    DONE = 'DONE'
+    STATUS_CHOICES = (
+        (TODO, 'To-do'),
+        (WIP, 'WIP'),
+        (DONE, 'Done')
+    )
+
     created_time = models.DateTimeField(auto_now_add=True)
 
-    title =
-    desc =
-    tag =
-    priority =
-    project_id =
-    status =
-    author_user_id =
-    assignee_user_id =
+    issue_id = models.IntegerField(null=True, blank=True)
+    title = models.CharField(max_length=128, verbose_name='titreissue')
+    desc = models.CharField(max_length=2048, verbose_name='descriptionissue')
+    tag = models.CharField(max_length=12, choices=TAGS_CHOICES)
+    priority = models.CharField(max_length=12, choices=PRIORITY_CHOICES)
+    project_id = models.ForeignKey(to=Project,
+                                   on_delete=models.CASCADE,
+                                   related_name='issues')
+    status = models.CharField(max_length=12, choices=STATUS_CHOICES)
+    author_user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL,
+                                       on_delete=models.CASCADE,
+                                       related_name='issue_author')
+    assignee_user_id = models.ForeignKey(to=UserModel,
+                                         on_delete=models.CASCADE,
+                                         default=author_user_id,
+                                         related_name='issue_assignee')
 
     def __str__(self):
         return self.title
@@ -49,16 +89,35 @@ class Comment(models.Model):
 
     created_time = models.DateTimeField(auto_now_add=True)
 
-    comment_id =
-    description =
-    author_user_id =
-    issue_id =
+    comment_id = models.IntegerField(null=True, blank=True)
+    description = models.CharField(max_length=2048, 
+                                   verbose_name='descriptioncomment')
+    author_user_id = models.ForeignKey(to=settings.AUTH_USER_MODEL,
+                                       on_delete=models.CASCADE,
+                                       related_name='comment_author')
+    issue_id = models.ForeignKey(to=Issue,
+                                 on_delete=models.CASCADE,
+                                 related_name='comments')
 
     def __str__(self):
         return 'comment_number_', self.comment_id
 
 
 class Contributors(models.Model):
+
+    CONTRIBUTOR_PERMISSION = 'CONTRIBUTOR_PERMISSION'
+    AUTHOR_PERMISSION = 'AUTHOR_PERMISSION'
+    PERMS_ALT = (
+        (CONTRIBUTOR_PERMISSION, 'contributorsPermission'),
+        (AUTHOR_PERMISSION, 'authorPermission')
+    )
+
+    CONTRIBUTOR = 'CONTRIBUTOR'
+    AUTHOR = 'AUTHOR'
+    ROLE_ALT = (
+        (CONTRIBUTOR, 'contributor'),
+        (AUTHOR, 'author')
+    )
 
     user_id = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
@@ -67,9 +126,8 @@ class Contributors(models.Model):
         to=Project,
         on_delete=models.CASCADE)
 
-    permission =
-    role =
+    permission = models.CharField(max_length=25, choices=PERMS_ALT)
+    role = models.CharField(max_length=25, choices=ROLE_ALT)
 
     class Meta:
         unique_together = ('user_id', 'project_id',)
-
