@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 
 from .models import Project, Issue, Comment, Contributors
 
@@ -20,9 +21,23 @@ class ProjectDetailSerializer(serializers.ModelSerializer):
                   'description', 'type', 'author_user_id', 'issues')
 
     def get_issues(self, instance):
-        queryset = instance.issues.filter(active=True)
+        queryset = Issue.objects.filter(project_id=instance.project_id)
         serializer = IssueListSerializer(queryset, many=True)
         return serializer.data
+
+
+class ProjectCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Project
+        fields = ('title', 'description', 'type', 'author_user_id')
+
+
+class ProjectUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Project
+        fields = ('title', 'description', 'type')
 
 
 class IssueListSerializer(serializers.ModelSerializer):
@@ -44,9 +59,18 @@ class IssueDetailSerializer(serializers.ModelSerializer):
                   'assignee_user_id', 'project_id', 'comments')
 
     def get_comments(self, instance):
-        queryset = instance.comments.filter(active=True)
+        queryset = Comment.objects.filter(issue_id=instance.issue_id)
         serializer = CommentListSerializer(queryset, many=True)
         return serializer.data
+
+
+class IssueCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Issue
+        fields = ('issue_id', 'created_time', 'title', 'description',
+                  'priority', 'tag', 'status', 'author_user_id',
+                  'assignee_user_id', 'project_id')
 
 
 class CommentListSerializer(serializers.ModelSerializer):
@@ -64,8 +88,28 @@ class CommentDetailSerializer(serializers.ModelSerializer):
                   'author_user_id', 'issue_id')
 
 
-class ContributorsSerializer(serializers.ModelSerializer):
+class CommentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Contributors
-        fields = ('user_id', 'project_id', 'permission', 'role')
+        model = Comment
+        fields = ('comment_id', 'created_time', 'description',
+                  'author_user_id', 'issue_id')
+
+
+class UserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('user_id', 'email')
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('user_id', 'email', 'first_name', 'last_name')
+
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = get_user_model()
+        fields = ('email', )
+

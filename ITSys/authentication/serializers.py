@@ -7,7 +7,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     username_field = get_user_model().USERNAME_FIELD
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ('user_id', 'email', 'password', 'first_name', 'last_name')
+        fields = ('email', 'password', 'first_name', 'last_name')

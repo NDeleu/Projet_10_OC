@@ -4,13 +4,17 @@ from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import UserSerializer, MyTokenObtainPairSerializer
+from .serializers import UserRegisterSerializer, MyTokenObtainPairSerializer
 
 
 class RegisterView(APIView):
+    """
+    n'autoriser que les methodes post
+    """
+    http_method_names = ['post']
 
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
+    def post(self, *args, **kwargs):
+        serializer = UserRegisterSerializer(data=self.request.data)
         if serializer.is_valid():
             get_user_model().objects.create_user(**serializer.validated_data)
             return Response(serializer.data, status=HTTP_201_CREATED)

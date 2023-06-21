@@ -16,12 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
+from rest_framework_nested import routers
 
 from rest_framework_simplejwt.views import TokenRefreshView
 from authentication.views import EmailTokenObtainPairView, RegisterView
+from projectsManager.views import ProjectViewset, UserViewset, \
+    IssueViewset, CommentViewset
 
 router = routers.SimpleRouter()
+router.register(r'projects/?', ProjectViewset, basename='projects')
+user_router = routers.NestedSimpleRouter(router, r'projects/?', lookup='projects', trailing_slash=False)
+user_router.register(r'users/?', UserViewset, basename='users', )
+issue_router = routers.NestedSimpleRouter(router, r'projects/?', lookup='projects', trailing_slash=False)
+issue_router.register(r'issues/?', IssueViewset, basename='issues', )
+comment_router = routers.NestedSimpleRouter(issue_router, r'issues/?', lookup='issues', trailing_slash=False)
+comment_router.register(r'comments/?', CommentViewset, basename='comments', )
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +42,9 @@ urlpatterns = [
     path('api/token/refresh/',
          TokenRefreshView.as_view(), name='refresh_token'),
     path('api/', include(router.urls)),
+    path('api/', include(user_router.urls)),
+    path('api/', include(issue_router.urls)),
+    path('api/', include(comment_router.urls)),
 ]
 
 
