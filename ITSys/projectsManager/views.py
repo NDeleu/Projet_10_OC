@@ -2,7 +2,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
+from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, \
+    HTTP_200_OK
 
 from django.db import transaction, IntegrityError
 
@@ -11,7 +12,9 @@ from .models import Project, Issue, Comment, Contributors
 from .serializers import ProjectListSerializer, ProjectDetailSerializer, \
     ProjectCreateSerializer, ProjectUpdateSerializer, \
     IssueListSerializer, IssueDetailSerializer, IssueCreateSerializer, \
+    IssueUpdateSerializer, \
     CommentListSerializer, CommentDetailSerializer, CommentCreateSerializer, \
+    CommentUpdateSerializer, \
     UserListSerializer, UserDetailSerializer, UserCreateSerializer
 
 
@@ -101,20 +104,110 @@ class UserViewset(MultipleSerializerMixin, ModelViewSet):
                     }
                 return Response(response, status=HTTP_201_CREATED)
             response = {'errors': 'No user responds to this email'}
-            return Response(response)
+            return Response(response, status=HTTP_400_BAD_REQUEST)
         except IntegrityError:
             response = {'error': 'User with this email already added'}
-            return Response(response)
+            return Response(response, status=HTTP_400_BAD_REQUEST)
 
     @transaction.atomic
     def destroy(self, request, *args, **kwargs):
-
-
+        del_user = get_user_model().objects.filter(user_id=self.kwargs['pk'])[0]
+        if del_user:
+            if del_user == request.user:
+                response = {'errors': 'Main author user cannot be deleted'}
+                return Response(response, status=HTTP_400_BAD_REQUEST)
+            del_contributor = Contributors.objects.filter(user_id=self.kwargs['pk'], project_id=self.kwargs['projects_pk'])[0]
+            if del_contributor:
+                del_contributor.delete()
+                return Response()
+            response = {'errors': 'Main author is not a contributor on this project'}
+            return Response(response, status=HTTP_400_BAD_REQUEST)
+        response = {'errors': 'No user responds to this email'}
+        return Response(response, status=HTTP_400_BAD_REQUEST)
 
 
 class IssueViewset(MultipleSerializerMixin, ModelViewSet):
-    pass
+    serializer_class = IssueListSerializer
+    detail_serializer_class = IssueDetailSerializer
+    create_serializer_class = IssueCreateSerializer
+    update_serializer_class = IssueUpdateSerializer
+
+    http_method_names = ['get', 'post', 'put', 'delete']
+
+    def get_queryset(self):
+        return Issue.objects.filter(project_id=self.kwargs['projects_pk'])
+
+    @transaction.atomic
+    def create(self, request, *args, **kwargs):
+        serializer = IssueCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            author_user_id = get_user_model().objects.all()[1]
+            if serializer.validated_data['email_assignee']:
+                if get_user_model().objects.filter(email=serializer.validated_data['email_assignee']).exists():
+                    assignee_user_id = get_user_model().objects.filter(email=serializer.validated_data['email_assignee'])[0]
+                else:
+                    assignee_user_id = author_user_id
+            else:
+                assignee_user_id = author_user_id
+            issue = Issue.objects.create(
+                title=serializer.validated_data['title'],
+                desc=serializer.validated_data['desc'],
+                tag=serializer.validated_data['tag'],
+                priority=serializer.validated_data['priority'],
+                project_id=Project.objects.filter(project_id=self.kwargs['projects_pk'])[0],
+                status=serializer.validated_data['status'],
+                author_user_id=author_user_id,
+                assignee_user_id=assignee_user_id
+            )
+            issue.save()
+
+            issue.issue_id = issue.pk
+            issue.save()
+            response = {'issue_id': issue.issue_id, 'created_time': issue.created_time, 'title': issue.title, 'description': issue.desc, 'priority': issue.priority, 'tag': issue.tag, 'status': issue.status, 'author_user_id': author_user_id.user_id, 'assignee_user_id': assignee_user_id.user_id, 'project_id': int(self.kwargs['projects_pk'])}
+            return Response(response, status=HTTP_201_CREATED)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+    #request.user
+
+    @transaction.atomic
+    def update(self, request, *args, **kwargs):
+        serializer = IssueCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            author_user_id = get_user_model().objects.all()[1]
+            if serializer.validated_data['email_assignee']:
+                if get_user_model().objects.filter(email=serializer.validated_data['email_assignee']).exists():
+                    assignee_user_id = get_user_model().objects.filter(email=serializer.validated_data['email_assignee'])[0]
+                else:
+                    assignee_user_id = Issue.objects.filter(issue_id=self.kwargs['pk'])[0].assignee_user_id
+            else:
+                assignee_user_id = Issue.objects.filter(issue_id=self.kwargs['pk'])[0].assignee_user_id
+            Issue.objects.update(
+                title=serializer.validated_data['title'],
+                desc=serializer.validated_data['desc'],
+                tag=serializer.validated_data['tag'],
+                priority=serializer.validated_data['priority'],
+                status=serializer.validated_data['status'],
+                assignee_user_id=assignee_user_id
+            )
+            issue = Issue.objects.filter(issue_id=self.kwargs['pk'])[0]
+            response = {'issue_id': issue.issue_id, 'created_time': issue.created_time, 'title': issue.title, 'description': issue.desc, 'priority': issue.priority, 'tag': issue.tag, 'status': issue.status, 'author_user_id': issue.author_user_id.user_id, 'assignee_user_id': assignee_user_id.user_id, 'project_id': issue.project_id.project_id}
+            return Response(response, status=HTTP_200_OK)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+    def destroy(self, request, *args, **kwargs):
+        return super(IssueViewset, self).destroy(request, *args, **kwargs)
 
 
 class CommentViewset(MultipleSerializerMixin, ModelViewSet):
-    pass
+    serializer_class = CommentListSerializer
+    detail_serializer_class = CommentDetailSerializer
+    create_serializer_class = CommentCreateSerializer
+    update_serializer_class = CommentUpdateSerializer
+
+    http_method_names = ['get', 'post', 'put', 'delete']
+
+    def get_queryset(self):
+        return Comment.objects.filter(issue_id=self.kwargs['issues_pk'])
+
+    def destroy(self, request, *args, **kwargs):
+        return super(CommentViewset, self).destroy(request, *args, **kwargs)

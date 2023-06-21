@@ -45,7 +45,7 @@ class IssueListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
         fields = ('issue_id', 'created_time', 'title', 'priority',
-                  'tag', 'status', 'project_id')
+                  'tag', 'status')
 
 
 class IssueDetailSerializer(serializers.ModelSerializer):
@@ -54,7 +54,7 @@ class IssueDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Issue
-        fields = ('issue_id', 'created_time', 'title', 'description',
+        fields = ('issue_id', 'created_time', 'title', 'desc',
                   'priority', 'tag', 'status', 'author_user_id',
                   'assignee_user_id', 'project_id', 'comments')
 
@@ -66,18 +66,28 @@ class IssueDetailSerializer(serializers.ModelSerializer):
 
 class IssueCreateSerializer(serializers.ModelSerializer):
 
+    email_assignee = serializers.EmailField(allow_null=True, allow_blank=True)
+
     class Meta:
         model = Issue
-        fields = ('issue_id', 'created_time', 'title', 'description',
-                  'priority', 'tag', 'status', 'author_user_id',
-                  'assignee_user_id', 'project_id')
+        fields = ('title', 'desc', 'priority', 'tag', 'status', 'email_assignee')
+
+
+class IssueUpdateSerializer(serializers.ModelSerializer):
+
+    email_assignee = serializers.EmailField(allow_null=True, allow_blank=True)
+
+    class Meta:
+        model = Issue
+        fields = ('title', 'desc', 'priority',
+                  'tag', 'status', 'email_assignee')
 
 
 class CommentListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('comment_id', 'created_time', 'author_user_id', 'issue_id')
+        fields = ('comment_id', 'created_time', 'author_user_id')
 
 
 class CommentDetailSerializer(serializers.ModelSerializer):
@@ -92,8 +102,14 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ('comment_id', 'created_time', 'description',
-                  'author_user_id', 'issue_id')
+        fields = ('description', )
+
+
+class CommentUpdateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ('description', )
 
 
 class UserListSerializer(serializers.ModelSerializer):
