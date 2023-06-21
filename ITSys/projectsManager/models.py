@@ -100,7 +100,7 @@ class Comment(models.Model):
                                  related_name='comments')
 
     def __str__(self):
-        return 'comment_number_', self.comment_id
+        return f'comment_number_{str(self.comment_id)}'
 
 
 class Contributors(models.Model):

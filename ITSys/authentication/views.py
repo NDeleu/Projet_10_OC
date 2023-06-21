@@ -9,7 +9,7 @@ from .serializers import UserRegisterSerializer, MyTokenObtainPairSerializer
 
 class RegisterView(APIView):
     """
-    n'autoriser que les methodes post
+    N'autoriser que les methodes post
     """
     http_method_names = ['post']
 

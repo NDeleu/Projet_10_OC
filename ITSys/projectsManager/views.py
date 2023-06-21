@@ -42,7 +42,7 @@ class ProjectViewset(MultipleSerializerMixin, ModelViewSet):
     http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        return Project.objects.filter(project_id__in=[contributor.project_id.id for contributor in Contributors.objects.filter(user_id=16).all()])
+        return Project.objects.filter(project_id__in=[contributor.project_id.id for contributor in Contributors.objects.filter(user_id=2).all()])
 
     # self.request.user
 
@@ -208,6 +208,29 @@ class CommentViewset(MultipleSerializerMixin, ModelViewSet):
 
     def get_queryset(self):
         return Comment.objects.filter(issue_id=self.kwargs['issues_pk'])
+
+    @transaction.atomic
+    def create(self, request, *args, **kwargs):
+        serializer = CommentCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            author_user_id = get_user_model().objects.all()[1]
+
+            comment = Comment.objects.create(
+                description=serializer.validated_data['description'],
+                author_user_id=author_user_id,
+                issue_id=Issue.objects.filter(issue_id=self.kwargs['issues_pk'])[0],
+            )
+            comment.save()
+            comment.comment_id = comment.pk
+            comment.save()
+            response = {'comment_id': comment.comment_id, 'created_time': comment.created_time, 'description': comment.description, 'author_user_id': author_user_id.user_id, 'issue_id': comment.issue_id.issue_id}
+            return Response(response, status=HTTP_201_CREATED)
+        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+    # request.user
+
+    def update(self, request, *args, **kwargs):
+        return super(CommentViewset, self).update(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         return super(CommentViewset, self).destroy(request, *args, **kwargs)
