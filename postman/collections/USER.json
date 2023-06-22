@@ -1,0 +1,302 @@
+{
+	"info": {
+		"_postman_id": "b4dc4519-9602-4dff-bd72-31050e371c41",
+		"name": "USER",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "27948551-b4dc4519-9602-4dff-bd72-31050e371c41"
+	},
+	"item": [
+		{
+			"name": "Users List From Project",
+			"id": "907b94a3-4206-42cc-a445-784665065e07",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcxNzkwLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImI0ZDdmOTllMjU4NzRjY2M5MzgxYzNjYzIwYzQ0NTY3IiwidXNlcl9pZCI6NX0.9QREvTR2XAo12Cu7u-7zxjYIibfKu8ItUGdRNho8TR8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/projects/3/users/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"projects",
+						"3",
+						"users",
+						""
+					]
+				},
+				"description": "StartFragment\n\n```\nRetrieve the list of all users (users) attached to a project (project)\n```\n\nEndFragment"
+			},
+			"response": [
+				{
+					"id": "a97d18be-8b73-4a09-813c-4ba5d6c12760",
+					"name": "user_get_view_list_output",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcxNzkwLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImI0ZDdmOTllMjU4NzRjY2M5MzgxYzNjYzIwYzQ0NTY3IiwidXNlcl9pZCI6NX0.9QREvTR2XAo12Cu7u-7zxjYIibfKu8ItUGdRNho8TR8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/users/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"users",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Thu, 22 Jun 2023 22:09:25 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.11.3"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "136"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"user_id\": 2,\n            \"email\": \"coucou@coucou.fr\"\n        },\n        {\n            \"user_id\": 5,\n            \"email\": \"testuserone@test.fr\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Add User to Project",
+			"id": "7af5f554-03cf-4a89-895e-93dc739af045",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcxNzkwLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImI0ZDdmOTllMjU4NzRjY2M5MzgxYzNjYzIwYzQ0NTY3IiwidXNlcl9pZCI6NX0.9QREvTR2XAo12Cu7u-7zxjYIibfKu8ItUGdRNho8TR8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "coucou@coucou.fr",
+							"description": "EmailField",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/projects/3/users/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"projects",
+						"3",
+						"users",
+						""
+					]
+				},
+				"description": "StartFragment\n\n```\nAdd a user (collaborator) to a project (params: email)\n\n```\n\nEndFragment"
+			},
+			"response": [
+				{
+					"id": "850bcd7b-2080-47b2-87bc-d2f9e6d3014f",
+					"name": "user_create_contribut_output",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcxNzkwLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImI0ZDdmOTllMjU4NzRjY2M5MzgxYzNjYzIwYzQ0NTY3IiwidXNlcl9pZCI6NX0.9QREvTR2XAo12Cu7u-7zxjYIibfKu8ItUGdRNho8TR8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "coucou@coucou.fr",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/users/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"users",
+								""
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Thu, 22 Jun 2023 22:09:23 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.11.3"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "GET, POST"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "87"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"user_id\": 2,\n    \"project_id\": 3,\n    \"permission\": \"CONTRIBUTOR_PERMISSION\",\n    \"role\": \"CONTRIBUTOR\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Remove User from Project",
+			"id": "dbfa8aa7-1b5d-402e-b8b2-82d940995a74",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcxNzkwLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImI0ZDdmOTllMjU4NzRjY2M5MzgxYzNjYzIwYzQ0NTY3IiwidXNlcl9pZCI6NX0.9QREvTR2XAo12Cu7u-7zxjYIibfKu8ItUGdRNho8TR8",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/projects/3/users/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"projects",
+						"3",
+						"users",
+						"2"
+					]
+				},
+				"description": "StartFragment\n\n```\nRemove a user from a project\n```\n\nEndFragment"
+			},
+			"response": []
+		}
+	]
+}
