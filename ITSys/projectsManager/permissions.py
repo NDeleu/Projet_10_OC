@@ -20,7 +20,10 @@ class ContributorsViewsetPermission(BasePermission):
         if view.action in ['retrieve', 'list']:
             return self.check_contribution(request.user, Project.objects.filter(project_id=view.kwargs['projects_pk'])[0], ['CONTRIBUTOR_PERMISSION', 'AUTHOR_PERMISSION'])
         elif view.action in ['update', 'partial_update', 'create', 'destroy']:
-            return bool(request.user == Project.objects.filter(project_id=view.kwargs['projects_pk'])[0].author_user_id)
+            if Contributors.objects.filter(project_id=view.kwargs['projects_pk'], user_id=request.user):
+                return True
+            else:
+                return False
 
 
 class CategoryViewsetPermission(BasePermission):

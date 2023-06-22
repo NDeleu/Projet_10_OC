@@ -182,17 +182,10 @@ class IssueViewset(MultipleSerializerMixin, ModelViewSet):
                     assignee_user_id = Issue.objects.filter(issue_id=self.kwargs['pk'])[0].assignee_user_id
             else:
                 assignee_user_id = Issue.objects.filter(issue_id=self.kwargs['pk'])[0].assignee_user_id
-            Issue.objects.update(
-                title=serializer.validated_data['title'],
-                desc=serializer.validated_data['desc'],
-                tag=serializer.validated_data['tag'],
-                priority=serializer.validated_data['priority'],
-                status=serializer.validated_data['status'],
-                assignee_user_id=assignee_user_id
-            )
             issue = Issue.objects.filter(issue_id=self.kwargs['pk'])[0]
-            response = {'issue_id': issue.issue_id, 'created_time': issue.created_time, 'title': issue.title, 'description': issue.desc, 'priority': issue.priority, 'tag': issue.tag, 'status': issue.status, 'author_user_id': issue.author_user_id.user_id, 'assignee_user_id': assignee_user_id.user_id, 'project_id': issue.project_id.project_id}
-            return Response(response, status=HTTP_200_OK)
+            issue.assignee_user_id = assignee_user_id
+            issue.save()
+            return super(IssueViewset, self).update(request, *args, **kwargs)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, *args, **kwargs):
