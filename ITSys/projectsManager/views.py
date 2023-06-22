@@ -2,6 +2,9 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
+from .permissions import CategoryViewsetPermission, \
+    ContributorsViewsetPermission
+
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, \
     HTTP_200_OK
 
@@ -41,10 +44,10 @@ class ProjectViewset(MultipleSerializerMixin, ModelViewSet):
 
     http_method_names = ['get', 'post', 'put', 'delete']
 
-    def get_queryset(self):
-        return Project.objects.filter(project_id__in=[contributor.project_id.id for contributor in Contributors.objects.filter(user_id=2).all()])
+    permission_classes = (CategoryViewsetPermission,)
 
-    # self.request.user
+    def get_queryset(self):
+        return Project.objects.filter(project_id__in=[contributor.project_id.id for contributor in Contributors.objects.filter(user_id=self.request.user).all()])
 
     @transaction.atomic
     def create(self, request, *args, **kwargs):
@@ -54,7 +57,7 @@ class ProjectViewset(MultipleSerializerMixin, ModelViewSet):
             project.project_id = project.pk
             project.save()
             project.author_user_id.add(
-                get_user_model().objects.all()[1].user_id,
+                request.user.user_id,
                 through_defaults={
                     'permission': 'AUTHOR_PERMISSION',
                     'role': 'AUTHOR'
@@ -63,9 +66,6 @@ class ProjectViewset(MultipleSerializerMixin, ModelViewSet):
             response = {'project_id': project.project_id, 'title': project.title, 'description': project.description, 'type': project.type, 'author_user_id': Contributors.objects.filter(role='AUTHOR')[0].user_id.user_id}
             return Response(response, status=HTTP_201_CREATED)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-
-    #request.user
-    #get_user_model().objects.filter(user_id=1)
 
     def update(self, request, *args, **kwargs):
         return super(ProjectViewset, self).update(request, *args, **kwargs)
@@ -80,6 +80,8 @@ class UserViewset(MultipleSerializerMixin, ModelViewSet):
     create_serializer_class = UserCreateSerializer
 
     http_method_names = ['get', 'post', 'delete']
+
+    permission_classes = (ContributorsViewsetPermission,)
 
     def get_queryset(self):
         return get_user_model().objects.filter(user_id__in=[contributor.user_id.id for contributor in Contributors.objects.filter(project_id=self.kwargs['projects_pk'])])
@@ -134,6 +136,8 @@ class IssueViewset(MultipleSerializerMixin, ModelViewSet):
 
     http_method_names = ['get', 'post', 'put', 'delete']
 
+    permission_classes = (CategoryViewsetPermission,)
+
     def get_queryset(self):
         return Issue.objects.filter(project_id=self.kwargs['projects_pk'])
 
@@ -141,7 +145,7 @@ class IssueViewset(MultipleSerializerMixin, ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer = IssueCreateSerializer(data=request.data)
         if serializer.is_valid():
-            author_user_id = get_user_model().objects.all()[1]
+            author_user_id = request.user
             if serializer.validated_data['email_assignee']:
                 if get_user_model().objects.filter(email=serializer.validated_data['email_assignee']).exists():
                     assignee_user_id = get_user_model().objects.filter(email=serializer.validated_data['email_assignee'])[0]
@@ -167,13 +171,10 @@ class IssueViewset(MultipleSerializerMixin, ModelViewSet):
             return Response(response, status=HTTP_201_CREATED)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
-    #request.user
-
     @transaction.atomic
     def update(self, request, *args, **kwargs):
         serializer = IssueCreateSerializer(data=request.data)
         if serializer.is_valid():
-            author_user_id = get_user_model().objects.all()[1]
             if serializer.validated_data['email_assignee']:
                 if get_user_model().objects.filter(email=serializer.validated_data['email_assignee']).exists():
                     assignee_user_id = get_user_model().objects.filter(email=serializer.validated_data['email_assignee'])[0]
@@ -206,6 +207,8 @@ class CommentViewset(MultipleSerializerMixin, ModelViewSet):
 
     http_method_names = ['get', 'post', 'put', 'delete']
 
+    permission_classes = (CategoryViewsetPermission,)
+
     def get_queryset(self):
         return Comment.objects.filter(issue_id=self.kwargs['issues_pk'])
 
@@ -213,7 +216,7 @@ class CommentViewset(MultipleSerializerMixin, ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer = CommentCreateSerializer(data=request.data)
         if serializer.is_valid():
-            author_user_id = get_user_model().objects.all()[1]
+            author_user_id = request.user
 
             comment = Comment.objects.create(
                 description=serializer.validated_data['description'],
@@ -226,8 +229,6 @@ class CommentViewset(MultipleSerializerMixin, ModelViewSet):
             response = {'comment_id': comment.comment_id, 'created_time': comment.created_time, 'description': comment.description, 'author_user_id': author_user_id.user_id, 'issue_id': comment.issue_id.issue_id}
             return Response(response, status=HTTP_201_CREATED)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-
-    # request.user
 
     def update(self, request, *args, **kwargs):
         return super(CommentViewset, self).update(request, *args, **kwargs)
