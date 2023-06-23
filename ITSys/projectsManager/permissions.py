@@ -4,6 +4,14 @@ from .models import Project, Issue, Comment, Contributors
 
 class ContributorsViewsetPermission(BasePermission):
 
+    """
+    Permission on Contributors management (views.UserViewset).
+    CONTRIBUTOR with CONTRIBUTOR_PERMISSION
+    have permission to get list and retrieve,
+    AUTHOR with AUTHOR_PERMISSION
+    have permission to get list and retrieve, create and delete.
+    """
+
     message = 'Permission required'
 
     def check_contribution(self, user, project, authorizedrole):
@@ -27,6 +35,18 @@ class ContributorsViewsetPermission(BasePermission):
 
 
 class CategoryViewsetPermission(BasePermission):
+
+    """
+    Permission on Categories management
+    (views.ProjectViewset, views.IssueViewset, views.CommentViewset).
+    User identified can create project.
+    CONTRIBUTOR with CONTRIBUTOR_PERMISSION
+    have permission to get list and retrieve for project
+    and get list and retrive and create for issue and comment,
+    AUTHOR with AUTHOR_PERMISSION for project
+    and author_user_id for issue and comment
+    have permission to get list and retrieve, create update and delete.
+    """
 
     message = 'Permission required'
 

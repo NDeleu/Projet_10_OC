@@ -37,6 +37,13 @@ class MultipleSerializerMixin:
 
 
 class ProjectViewset(MultipleSerializerMixin, ModelViewSet):
+
+    """
+    Create project : User Identified
+    Get list and retrieve project : Contributor and Author
+    Update and delete project : Author
+    """
+
     serializer_class = ProjectListSerializer
     detail_serializer_class = ProjectDetailSerializer
     create_serializer_class = ProjectCreateSerializer
@@ -75,6 +82,14 @@ class ProjectViewset(MultipleSerializerMixin, ModelViewSet):
 
 
 class UserViewset(MultipleSerializerMixin, ModelViewSet):
+
+    """
+    Contribution is an intermediate table authorizing users to access
+    the project. These users are then contributors to the project.
+    Get list user from project : Contributor and Author
+    Create and delete contribution (Contributor) : Author
+    """
+
     serializer_class = UserListSerializer
     detail_serializer_class = UserDetailSerializer
     create_serializer_class = UserCreateSerializer
@@ -129,6 +144,12 @@ class UserViewset(MultipleSerializerMixin, ModelViewSet):
 
 
 class IssueViewset(MultipleSerializerMixin, ModelViewSet):
+
+    """
+    Create and get list and retrieve issue : Contributor and Author
+    Update and delete issue : issue author
+    """
+
     serializer_class = IssueListSerializer
     detail_serializer_class = IssueDetailSerializer
     create_serializer_class = IssueCreateSerializer
@@ -193,6 +214,12 @@ class IssueViewset(MultipleSerializerMixin, ModelViewSet):
 
 
 class CommentViewset(MultipleSerializerMixin, ModelViewSet):
+
+    """
+    Create and get list and retrieve comment : Contributor and Author
+    Update and delete comment : comment author
+    """
+
     serializer_class = CommentListSerializer
     detail_serializer_class = CommentDetailSerializer
     create_serializer_class = CommentCreateSerializer

@@ -66,6 +66,10 @@ class IssueDetailSerializer(serializers.ModelSerializer):
 
 class IssueCreateSerializer(serializers.ModelSerializer):
 
+    """
+    Add an email_assignee Field instead of assignee_user_id Field for fill
+    this field with an email and not an identifier (int).
+    """
     email_assignee = serializers.EmailField(allow_null=True, allow_blank=True)
 
     class Meta:
@@ -75,6 +79,10 @@ class IssueCreateSerializer(serializers.ModelSerializer):
 
 class IssueUpdateSerializer(serializers.ModelSerializer):
 
+    """
+    Add an email_assignee Field instead of assignee_user_id Field for fill
+    this field with an email and not an identifier (int).
+    """
     email_assignee = serializers.EmailField(allow_null=True, allow_blank=True)
 
     class Meta:

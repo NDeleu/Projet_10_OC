@@ -8,9 +8,7 @@ from .serializers import UserRegisterSerializer, MyTokenObtainPairSerializer
 
 
 class RegisterView(APIView):
-    """
-    N'autoriser que les methodes post
-    """
+
     http_method_names = ['post']
 
     def post(self, *args, **kwargs):
@@ -22,4 +20,7 @@ class RegisterView(APIView):
 
 
 class EmailTokenObtainPairView(TokenObtainPairView):
+    """
+    User identification and token/refresh generate with user email
+    """
     serializer_class = MyTokenObtainPairSerializer

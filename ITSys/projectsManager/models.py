@@ -7,6 +7,9 @@ class Project(models.Model):
 
     UserModel = get_user_model()
 
+    """
+    Type choice
+    """
     FRONTEND = 'FRONTEND'
     BACKEND = 'BACKEND'
     IOS = 'IOS'
@@ -35,6 +38,9 @@ class Issue(models.Model):
 
     UserModel = get_user_model()
 
+    """
+    Tag choice
+    """
     BUG = 'BUG'
     IMPROVEMENT = 'IMPROVEMENT'
     TASK = 'TASK'
@@ -44,6 +50,9 @@ class Issue(models.Model):
         (TASK, 'Task')
     )
 
+    """
+    Priority choice
+    """
     LOW = 'LOW'
     MEDIUM = 'MEDIUM'
     HIGH = 'HIGH'
@@ -53,6 +62,9 @@ class Issue(models.Model):
         (HIGH, 'High')
     )
 
+    """
+    Status choice
+    """
     TODO = 'TODO'
     WIP = 'WIP'
     DONE = 'DONE'
@@ -105,6 +117,9 @@ class Comment(models.Model):
 
 class Contributors(models.Model):
 
+    """
+    Permission (Perm) choice
+    """
     CONTRIBUTOR_PERMISSION = 'CONTRIBUTOR_PERMISSION'
     AUTHOR_PERMISSION = 'AUTHOR_PERMISSION'
     PERMS_ALT = (
@@ -112,6 +127,9 @@ class Contributors(models.Model):
         (AUTHOR_PERMISSION, 'authorPermission')
     )
 
+    """
+    Role choice
+    """
     CONTRIBUTOR = 'CONTRIBUTOR'
     AUTHOR = 'AUTHOR'
     ROLE_ALT = (
