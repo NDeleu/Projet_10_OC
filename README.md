@@ -157,17 +157,43 @@ Pour cela, vous pouvez soit :
 
 Pour réitnialiser la base de données:  
 
-* Veuillez supprimer tous les fichiers dans le dossier `ITSys/authentication/migrations` sauf le fichier `__init__.py`, et supprimer tous les fichiers dans le dossier `ITSys/projectsManager/migrations` sauf le fichier `__init__.py`, puis vous pourrez supprimer la base de donnée en supprimant le fichier `db.sqlite3` dans le dossier `ITSys`
+* Veuillez supprimer les fichiers de migration actuels :
+
+- Pour supprimer les migrations d'authentication , dans votre terminal, accéder au dossier ITSys, puis entrez les commandes :
+
+Sur Microsoft Windows : `cd authentication/migrations`
+
+puis, toujours sur Microsoft Windows : `Remove-Item * -Include *.py -Exclude *__init__*`
+
+Sur Linux ou Mac : `cd authentication/migrations`
+
+puis, toujours sur Linux ou Mac : `rm -v !("__init__.py")`
+
+- Ensuite, pour supprimer les migrations de projectsManager, dans votre terminal, accéder au dossier ITSys, puis entrez les commandes :
+
+Sur Microsoft Windows : `cd projectsManager/migrations`
+
+puis, toujours sur Microsoft Windows : `Remove-Item * -Include *.py -Exclude *__init__*`
+
+Sur Linux ou Mac : `cd projectsManager/migrations`
+
+puis, toujours sur Linux ou Mac : `rm db.sqlite3`
+
+- Enfin, pour supprimer votre base de données actuelle, dans votre terminal, accéder au dossier ITSys, puis entrez les commandes : 
+
+Sur Microsoft Windows : `Remove-Item db.sqlite3`
+
+Sur Linux ou Mac : `rm db.sqlite3`
 
 * Veuillez récréer une base de donnée vierge, en réalisation une migration, 
 
-pour cela, initialisez la migration, à partir du terminal veuillez accéder au dossier ITSys, puis entrez la commande :
+- Pour cela, initialisez la migration, à partir du terminal veuillez accéder au dossier ITSys, puis entrez la commande :
 
 Sur Microsoft Windows : `python manage.py makemigrations`
 
 Sur Linux ou Mac : `python3 manage.py makemigrations`
 
-puis réalisez la migration,  à partir du terminal , entrez la commande :
+- Puis réalisez la migration,  à partir du terminal , entrez la commande :
 
 Sur Microsoft Windows : `python manage.py migrate`
 
