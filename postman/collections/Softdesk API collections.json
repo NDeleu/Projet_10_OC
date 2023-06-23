@@ -1,0 +1,2557 @@
+{
+	"info": {
+		"_postman_id": "4d085a99-9e70-4da7-8098-5e32c25c1337",
+		"name": "Softdesk API collections",
+		"description": "``` markdown\nThis API allows you to view, create, edit, and delete projects, issues, and comments. This API respects the OWASP top 10 and requires registration and identification\n\n```",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "27948551-4d085a99-9e70-4da7-8098-5e32c25c1337"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "User Signup",
+					"id": "4c75a2db-c57f-4c20-832f-290d05992751",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "testuserone@test.fr",
+									"description": "EmailField",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testuserone_password",
+									"description": "Password",
+									"type": "text"
+								},
+								{
+									"key": "first_name",
+									"value": "testuseronefirstname",
+									"description": "CharField(max_length=128)",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "testuseronelastname",
+									"description": "CharField(max_length=128)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/register/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"register",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nUser registration (params: email, password, first_name, last_name)\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "d28fa0e8-17c4-48f1-a813-253a90d1991d",
+							"name": "user_registered_output",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "testuserone@test.fr",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "testuserone_password",
+											"type": "text"
+										},
+										{
+											"key": "first_name",
+											"value": "testuseronefirstname",
+											"type": "text"
+										},
+										{
+											"key": "last_name",
+											"value": "testuseronelastname",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/register/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"register",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 20:35:32 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "POST"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "135"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"email\": \"testuserone@test.fr\",\n    \"password\": \"testuserone_password\",\n    \"first_name\": \"testuseronefirstname\",\n    \"last_name\": \"testuseronelastname\"\n}"
+						}
+					]
+				},
+				{
+					"name": "User Login",
+					"id": "2b7ea0fb-1b17-4300-b0a7-dc21bb02eb59",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "testuserone@test.fr",
+									"description": "EmailField",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "testuserone_password",
+									"description": "Password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/token/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"token",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nUser login (params: email, password ; return: token(default expiration time: 5 minutes), refresh(default expiration time: 24 hours))\nFor the endpoints of the other categories (USER, PROJECT, ISSUE and COMMENT) you will need to fill in the header Key: AUTHORIZED; Value: Bearer access. Where the access is the token (code delivered)\n\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "4176bc32-72d7-4654-a85f-c5c43da0977e",
+							"name": "user_log_token_output",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "testuserone@test.fr",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "testuserone_password",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/token/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"token",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 20:38:15 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "483"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NzU1MjY5NSwiaWF0IjoxNjg3NDY2Mjk1LCJqdGkiOiIwNzQxOGJhZmZiOTg0ODM1YWM4MDYzMDI0YmJlYmUxNiIsInVzZXJfaWQiOjV9.XFM0OoaUOzZfStX4DbNElInROQPpyMMLw24_gM-Edtc\",\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDY2NTk1LCJpYXQiOjE2ODc0NjYyOTUsImp0aSI6IjcyMTJmZGUwMWMxNDQ5NzhhMWNlYzM5ZWY0NzhlNDVlIiwidXNlcl9pZCI6NX0.8chVnK-95gDZKGWNp-5cnyr-Fmg54a60QkLjxhxI8Gc\"\n}"
+						}
+					]
+				},
+				{
+					"name": "User Refresh Token",
+					"id": "1abc15f5-e364-4e38-bdae-9581f1f4c51d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "refresh",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NzU1MjkxNCwiaWF0IjoxNjg3NDY2NTE0LCJqdGkiOiI4ZWZhZDI4NjZmN2Y0MDZjOWZjMTI0MzMxZjFhM2ZmZCIsInVzZXJfaWQiOjV9.7ZttJ5F6sDhcAJdnn1HGP8gTxbgt58CfkRa4-N9VQ4w",
+									"description": "Refresh_Token_Jwt",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/token/refresh/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"token",
+								"refresh",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nRefresh token (params: refresh), \n\n```\n\n```\nAfter 5 minutes, your token will be expired. It is then necessary to generate a new one thanks to the refresh\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "c666f2cd-e3c7-41dc-9d25-8995461614bf",
+							"name": "user_refresh_token_output",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "refresh",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4NzU1MjkxNCwiaWF0IjoxNjg3NDY2NTE0LCJqdGkiOiI4ZWZhZDI4NjZmN2Y0MDZjOWZjMTI0MzMxZjFhM2ZmZCIsInVzZXJfaWQiOjV9.7ZttJ5F6sDhcAJdnn1HGP8gTxbgt58CfkRa4-N9VQ4w",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/token/refresh/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"token",
+										"refresh",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 20:42:12 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "POST, OPTIONS"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "241"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"access\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDY2ODMyLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjhjM2Y3ZGIwMjJmNjQ1NTRiZWY0MDg3YThjYTg5YzZmIiwidXNlcl9pZCI6NX0.OY43P47PDD7DK2GZXeFY9eYqrO6momI_paY0r9sBZ2E\"\n}"
+						}
+					]
+				}
+			],
+			"id": "841d8c68-34f4-4645-a03d-d32089d33f0e",
+			"description": "StartFragment\n\nRegister, login and token management (token creation and refresh token).\n\nEndFragment"
+		},
+		{
+			"name": "PROJECT",
+			"item": [
+				{
+					"name": "Project View List",
+					"id": "47502099-0301-4563-8272-ec58211636ea",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDY3MzkxLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImZlMzg4ZDkxYzBiMjQzMjBiNWI2NGU3OTBiZjY1OGYwIiwidXNlcl9pZCI6NX0.haZjBcJ9V-ASBE5vrz_Rgpkxry33BeXUzEEhT6fQ7Cs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nRetrieve the list of all the projects (projects) attached to the user (user) connected\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "1bfb0737-25a6-4cf7-968b-7420d078fd58",
+							"name": "project_get_view_list_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDY3MzkxLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImZlMzg4ZDkxYzBiMjQzMjBiNWI2NGU3OTBiZjY1OGYwIiwidXNlcl9pZCI6NX0.haZjBcJ9V-ASBE5vrz_Rgpkxry33BeXUzEEhT6fQ7Cs",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 20:54:30 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "138"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"project_id\": 2,\n            \"title\": \"New Project For Test\",\n            \"type\": \"FRONTEND\",\n            \"author_user_id\": [\n                5\n            ]\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Project Create",
+					"id": "f2b589a6-4898-4ca7-b620-564d4785dbb6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDY4NjMxLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjlhNjdhODQ0ZjQ3MjQ3M2JiMWMwYThmY2Y2Yjc4NTE3IiwidXNlcl9pZCI6NX0.xGU2rM_A7dGtdNHB0LCNvsUeGlz_fGZNSLN1piUWjbc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "New Project For Test",
+									"description": "CharField(max_length=128)",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "A New Project for test project creation",
+									"description": "CharField(max_length=2048)",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "FRONTEND",
+									"description": "ChoiceField([FRONTEND, BACKEND, IOS, ANDROID])",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nCreate a project (params: title, description, type [FRONTEND, BACKEND, IOS, ANDROID])\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "2243e9e3-1358-4046-abb4-1d33d965be34",
+							"name": "project_create_output",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDY3MzkxLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImZlMzg4ZDkxYzBiMjQzMjBiNWI2NGU3OTBiZjY1OGYwIiwidXNlcl9pZCI6NX0.haZjBcJ9V-ASBE5vrz_Rgpkxry33BeXUzEEhT6fQ7Cs",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "New Project For Test",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "A New Project for test project creation",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "FRONTEND",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 20:51:50 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "140"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"project_id\": 2,\n    \"title\": \"New Project For Test\",\n    \"description\": \"A New Project for test project creation\",\n    \"type\": \"FRONTEND\",\n    \"author_user_id\": 2\n}"
+						}
+					]
+				},
+				{
+					"name": "Project View Detail",
+					"id": "b336a975-b184-41c6-85a6-e3bbe3cf65df",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDY4NjMxLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjlhNjdhODQ0ZjQ3MjQ3M2JiMWMwYThmY2Y2Yjc4NTE3IiwidXNlcl9pZCI6NX0.xGU2rM_A7dGtdNHB0LCNvsUeGlz_fGZNSLN1piUWjbc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nRetrieve the details of a project (project) with its id\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "60a7568e-37ef-4ae4-b2b8-19637df547ee",
+							"name": "project_retrieve_ouput",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDY4MzE3LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjFiZWRmZTFkMGQyMDRkYjc5YjA3ODhjNTRlZDA1NTI1IiwidXNlcl9pZCI6NX0.RZv7ADpje7LfcIQ0Wko545QHmYY_XRcKB1IXrmw0q4o",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/2",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 21:09:16 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, DELETE"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "154"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"project_id\": 2,\n    \"title\": \"New Project For Test\",\n    \"description\": \"A New Project for test project creation\",\n    \"type\": \"FRONTEND\",\n    \"author_user_id\": [\n        5\n    ],\n    \"issues\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Project Update",
+					"id": "c9b282a4-03d3-4529-9949-77961ab52033",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDY4MzE3LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjFiZWRmZTFkMGQyMDRkYjc5YjA3ODhjNTRlZDA1NTI1IiwidXNlcl9pZCI6NX0.RZv7ADpje7LfcIQ0Wko545QHmYY_XRcKB1IXrmw0q4o",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "New Project For Test",
+									"description": "CharField(max_length=128)",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "update the description for exemple",
+									"description": "CharField(max_length=2048)",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "FRONTEND",
+									"description": "ChoiceField([FRONTEND, BACKEND, IOS, ANDROID])",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/2/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"2",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nUpdate a project (params: title, description, type [FRONTEND, BACKEND, IOS, ANDROID])\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "be856b17-b1ed-4de9-95ce-4e6223730b81",
+							"name": "project_update_output",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDY4MzE3LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjFiZWRmZTFkMGQyMDRkYjc5YjA3ODhjNTRlZDA1NTI1IiwidXNlcl9pZCI6NX0.RZv7ADpje7LfcIQ0Wko545QHmYY_XRcKB1IXrmw0q4o",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "New Project For Test",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "update the description for exemple",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "FRONTEND",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/2/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										"2",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 21:10:15 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, DELETE"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "101"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"title\": \"New Project For Test\",\n    \"description\": \"update the description for exemple\",\n    \"type\": \"FRONTEND\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Project Delete",
+					"id": "dca6472f-d935-4d01-9401-4e3fbd9d7cd7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDY4MzE3LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjFiZWRmZTFkMGQyMDRkYjc5YjA3ODhjNTRlZDA1NTI1IiwidXNlcl9pZCI6NX0.RZv7ADpje7LfcIQ0Wko545QHmYY_XRcKB1IXrmw0q4o",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/2/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"2",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nDelete a project and its issues\n```\n\nEndFragment"
+					},
+					"response": []
+				}
+			],
+			"id": "6e79440b-6809-4ace-8d22-806a43a76fe1",
+			"description": "Project \\[list, retrieve, create, put, delete\\]"
+		},
+		{
+			"name": "USER",
+			"item": [
+				{
+					"name": "Users List From Project",
+					"id": "f4a88b68-d5fa-484d-b2fa-3b87febc107a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcxNzkwLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImI0ZDdmOTllMjU4NzRjY2M5MzgxYzNjYzIwYzQ0NTY3IiwidXNlcl9pZCI6NX0.9QREvTR2XAo12Cu7u-7zxjYIibfKu8ItUGdRNho8TR8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/users/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"users",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nRetrieve the list of all users (users) attached to a project (project)\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "414fc2b6-1f9f-49ec-ae31-6969fa13ec46",
+							"name": "user_get_view_list_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcxNzkwLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImI0ZDdmOTllMjU4NzRjY2M5MzgxYzNjYzIwYzQ0NTY3IiwidXNlcl9pZCI6NX0.9QREvTR2XAo12Cu7u-7zxjYIibfKu8ItUGdRNho8TR8",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/3/users/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										"3",
+										"users",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 22:09:25 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "136"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 2,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"user_id\": 2,\n            \"email\": \"coucou@coucou.fr\"\n        },\n        {\n            \"user_id\": 5,\n            \"email\": \"testuserone@test.fr\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Add User to Project",
+					"id": "20c5a310-3ff7-4b2e-83c7-7671de48d31b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcxNzkwLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImI0ZDdmOTllMjU4NzRjY2M5MzgxYzNjYzIwYzQ0NTY3IiwidXNlcl9pZCI6NX0.9QREvTR2XAo12Cu7u-7zxjYIibfKu8ItUGdRNho8TR8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "coucou@coucou.fr",
+									"description": "EmailField",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/users/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"users",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nAdd a user (collaborator) to a project (params: email)\n\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "f008f40c-0abf-4ab4-9eb6-bf77b6ad3d06",
+							"name": "user_create_contribut_output",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcxNzkwLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImI0ZDdmOTllMjU4NzRjY2M5MzgxYzNjYzIwYzQ0NTY3IiwidXNlcl9pZCI6NX0.9QREvTR2XAo12Cu7u-7zxjYIibfKu8ItUGdRNho8TR8",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "coucou@coucou.fr",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/3/users/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										"3",
+										"users",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 22:09:23 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "87"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user_id\": 2,\n    \"project_id\": 3,\n    \"permission\": \"CONTRIBUTOR_PERMISSION\",\n    \"role\": \"CONTRIBUTOR\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Remove User from Project",
+					"id": "83c52e11-fbac-44ba-8dce-c806b0277d9c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcxNzkwLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6ImI0ZDdmOTllMjU4NzRjY2M5MzgxYzNjYzIwYzQ0NTY3IiwidXNlcl9pZCI6NX0.9QREvTR2XAo12Cu7u-7zxjYIibfKu8ItUGdRNho8TR8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/users/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"users",
+								"2"
+							]
+						},
+						"description": "StartFragment\n\n```\nRemove a user from a project\n```\n\nEndFragment"
+					},
+					"response": []
+				}
+			],
+			"id": "5ee473dd-12c7-4441-a3cc-2e5e69a6ee94",
+			"description": "User Contributor \\[list, create, delete\\]"
+		},
+		{
+			"name": "ISSUE",
+			"item": [
+				{
+					"name": "Issue View List",
+					"id": "8a79bcb1-7f2c-44fc-ae34-564caabe1e63",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDc0MDgwLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjQxNjQzNGY1ZDBjYTRhMmRiMjhjODlmN2M4ODMzMjc1IiwidXNlcl9pZCI6NX0.PMGPD-KSWT9Bv4bEppGYmd4bwRLf0qjfg545S3SYOWA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/issues/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"issues",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nRetrieve the list of problems (issues) related to a project (project)\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "7a7f1f57-aecf-4729-abcc-a2f592bf223d",
+							"name": "issue_get_view_list_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcyMzkzLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjA1OGFjMGJhYmQ4MjQyZTQ4YjcxYmUyZjRlZWYzMmM2IiwidXNlcl9pZCI6NX0.qlr5V7_GBr1VjSojF5WiW9Vv5MRN1BLDX9LJLFJjevA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/3/issues/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										"3",
+										"issues",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 22:15:51 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "196"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"issue_id\": 2,\n            \"created_time\": \"2023-06-22T22:15:06.164010Z\",\n            \"title\": \"First Issue\",\n            \"priority\": \"MEDIUM\",\n            \"tag\": \"BUG\",\n            \"status\": \"TODO\",\n            \"project_id\": 3\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Issue Create",
+					"id": "0b7a6a2c-7a2c-47f0-9a66-a231f7452dc6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcyNzAxLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6Ijk4ZjFiZDdhZTg1ZDQxNDZiOTM1Y2I1NzM5M2RhYmIzIiwidXNlcl9pZCI6NX0.8Xtf1Oa3HaBL4lEDof27wb12EoCXdDAuWA517lvsjlM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "First Issue",
+									"description": "CharField(max_length=128)",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "First issue for our exemple project",
+									"description": "CharField(max_length=2048)",
+									"type": "text"
+								},
+								{
+									"key": "priority",
+									"value": "MEDIUM",
+									"description": "ChoiceField([LOW, MEDIUM, HIGH])",
+									"type": "text"
+								},
+								{
+									"key": "tag",
+									"value": "BUG",
+									"description": "ChoiceField([BUG, IMPROVEMENT, TASK])",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "TODO",
+									"description": "ChoiceField([TODO, WIP, DONE])",
+									"type": "text"
+								},
+								{
+									"key": "email_assignee",
+									"value": "",
+									"description": "EmailField",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/issues/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"issues",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nCreate an issue in a project (params: title, desc, priority[LOW, MEDIUM, HIGH], tag[BUG, IMPROVEMENT, TASK],status[TODO, WIP, DONE], email_assignee)\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "07ecdef6-22d2-45f4-a364-74e9295dcb24",
+							"name": "issue_create_output",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcyMzkzLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjA1OGFjMGJhYmQ4MjQyZTQ4YjcxYmUyZjRlZWYzMmM2IiwidXNlcl9pZCI6NX0.qlr5V7_GBr1VjSojF5WiW9Vv5MRN1BLDX9LJLFJjevA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "First Issue",
+											"type": "text"
+										},
+										{
+											"key": "desc",
+											"value": "First issue for our exemple project",
+											"type": "text"
+										},
+										{
+											"key": "priority",
+											"value": "MEDIUM",
+											"type": "text"
+										},
+										{
+											"key": "tag",
+											"value": "BUG",
+											"type": "text"
+										},
+										{
+											"key": "status",
+											"value": "TODO",
+											"type": "text"
+										},
+										{
+											"key": "email_assignee",
+											"value": "",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/3/issues/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										"3",
+										"issues",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 22:15:06 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "236"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"issue_id\": 2,\n    \"created_time\": \"2023-06-22T22:15:06.164010Z\",\n    \"title\": \"First Issue\",\n    \"description\": \"First issue for our exemple project\",\n    \"priority\": \"MEDIUM\",\n    \"tag\": \"BUG\",\n    \"status\": \"TODO\",\n    \"author_user_id\": 5,\n    \"assignee_user_id\": 5,\n    \"project_id\": 3\n}"
+						}
+					]
+				},
+				{
+					"name": "Issue View Detail",
+					"id": "50235895-bcb8-46c1-ace7-5b1b33100818",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcyNzAxLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6Ijk4ZjFiZDdhZTg1ZDQxNDZiOTM1Y2I1NzM5M2RhYmIzIiwidXNlcl9pZCI6NX0.8Xtf1Oa3HaBL4lEDof27wb12EoCXdDAuWA517lvsjlM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/issues/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"issues",
+								"2"
+							]
+						},
+						"description": "StartFragment\n\n```\nRetrieve details of a problem (issue) with its id\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "4e53a60f-88cf-4cb3-bd3d-f6fc681d2808",
+							"name": "issue_retrieve_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcyMzkzLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjA1OGFjMGJhYmQ4MjQyZTQ4YjcxYmUyZjRlZWYzMmM2IiwidXNlcl9pZCI6NX0.qlr5V7_GBr1VjSojF5WiW9Vv5MRN1BLDX9LJLFJjevA",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/3/issues/2",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										"3",
+										"issues",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 22:17:22 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, DELETE"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "243"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"issue_id\": 2,\n    \"created_time\": \"2023-06-22T22:15:06.164010Z\",\n    \"title\": \"First Issue\",\n    \"desc\": \"First issue for our exemple project\",\n    \"priority\": \"MEDIUM\",\n    \"tag\": \"BUG\",\n    \"status\": \"TODO\",\n    \"author_user_id\": 5,\n    \"assignee_user_id\": 5,\n    \"project_id\": 3,\n    \"comments\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "Issue Update",
+					"id": "60142bd4-6dc6-4f47-82ba-b1fdc3cb62bd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDc0Nzc1LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjM3MjA3MDk0MDZjNzQzYTFiYmYwOGU2MGJiMjZmMmFmIiwidXNlcl9pZCI6NX0.MTGm8XSVsV3CPquA6ZnyBDDHwo2hLIyYMdPTixPvFpU",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "First Issue",
+									"description": "CharField(max_length=128)",
+									"type": "text"
+								},
+								{
+									"key": "desc",
+									"value": "First issue for our exemple project",
+									"description": "CharField(max_length=2048)",
+									"type": "text"
+								},
+								{
+									"key": "priority",
+									"value": "MEDIUM",
+									"description": "ChoiceField([LOW, MEDIUM, HIGH])",
+									"type": "text"
+								},
+								{
+									"key": "tag",
+									"value": "BUG",
+									"description": "ChoiceField([BUG, IMPROVEMENT, TASK])",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "TODO",
+									"description": "ChoiceField([TODO, WIP, DONE])",
+									"type": "text"
+								},
+								{
+									"key": "email_assignee",
+									"value": "coucou@coucou.fr",
+									"description": "EmailField",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/issues/3",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"issues",
+								"3"
+							]
+						},
+						"description": "StartFragment\n\n```\nUpdate an issue in a project (params: title, desc, priority[LOW, MEDIUM, HIGH], tag[BUG, IMPROVEMENT, TASK],status[TODO, WIP, DONE], email_assignee)\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "bec6b9f8-904b-436b-a78c-e68f1ce7652f",
+							"name": "issue_update_output",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcyNzAxLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6Ijk4ZjFiZDdhZTg1ZDQxNDZiOTM1Y2I1NzM5M2RhYmIzIiwidXNlcl9pZCI6NX0.8Xtf1Oa3HaBL4lEDof27wb12EoCXdDAuWA517lvsjlM",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "title",
+											"value": "First Issue",
+											"type": "text"
+										},
+										{
+											"key": "desc",
+											"value": "First issue for our exemple project",
+											"type": "text"
+										},
+										{
+											"key": "priority",
+											"value": "MEDIUM",
+											"type": "text"
+										},
+										{
+											"key": "tag",
+											"value": "BUG",
+											"type": "text"
+										},
+										{
+											"key": "status",
+											"value": "TODO",
+											"type": "text"
+										},
+										{
+											"key": "email_assignee",
+											"value": "coucou@coucou.fr",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/3/issues/2",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										"3",
+										"issues",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 22:20:23 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, DELETE"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "236"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"issue_id\": 2,\n    \"created_time\": \"2023-06-22T22:15:06.164010Z\",\n    \"title\": \"First Issue\",\n    \"description\": \"First issue for our exemple project\",\n    \"priority\": \"MEDIUM\",\n    \"tag\": \"BUG\",\n    \"status\": \"TODO\",\n    \"author_user_id\": 5,\n    \"assignee_user_id\": 2,\n    \"project_id\": 3\n}"
+						}
+					]
+				},
+				{
+					"name": "Issue Delete",
+					"id": "cbfa6e80-46de-4ec7-8e59-4a42f96c11e7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDcyNzAxLCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6Ijk4ZjFiZDdhZTg1ZDQxNDZiOTM1Y2I1NzM5M2RhYmIzIiwidXNlcl9pZCI6NX0.8Xtf1Oa3HaBL4lEDof27wb12EoCXdDAuWA517lvsjlM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/issues/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"issues",
+								"2"
+							]
+						},
+						"description": "StartFragment\n\n```\nDelete an issue from a project\n```\n\nEndFragment"
+					},
+					"response": []
+				}
+			],
+			"id": "4f3a394a-4f33-4a8e-8232-6760173cefb7",
+			"description": "Issue \\[list, retrieve, create, put, delete\\]"
+		},
+		{
+			"name": "COMMENT",
+			"item": [
+				{
+					"name": "Comment View List",
+					"id": "1e78571a-5473-4c6d-892b-86a0a2ec68da",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDc0ODY1LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjE4NmEzNDQ1NjNkNTRhMTU4NGE5ODVlZjBhNTBjZTExIiwidXNlcl9pZCI6NX0.NsfT6I2HWmUEPV-c6fXPmLzoY9kPVK6PrjKx05VK914",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/issues/3/comments/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"issues",
+								"3",
+								"comments",
+								""
+							]
+						},
+						"description": "StartFragment\n\n```\nRetrieve the list of all comments related to an issue (issue)\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "a2e215cf-c07b-447d-b986-f6e2f8a0bc71",
+							"name": "comment_get_viw_list_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDc0ODY1LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjE4NmEzNDQ1NjNkNTRhMTU4NGE5ODVlZjBhNTBjZTExIiwidXNlcl9pZCI6NX0.NsfT6I2HWmUEPV-c6fXPmLzoY9kPVK6PrjKx05VK914",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/3/issues/3/comments/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										"3",
+										"issues",
+										"3",
+										"comments",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 22:57:58 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "132"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"count\": 1,\n    \"next\": null,\n    \"previous\": null,\n    \"results\": [\n        {\n            \"comment_id\": 2,\n            \"created_time\": \"2023-06-22T22:57:24.813627Z\",\n            \"author_user_id\": 5\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Comment Create",
+					"id": "103e4a8c-2c04-478f-8e00-514db1561e03",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDc0ODY1LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjE4NmEzNDQ1NjNkNTRhMTU4NGE5ODVlZjBhNTBjZTExIiwidXNlcl9pZCI6NX0.NsfT6I2HWmUEPV-c6fXPmLzoY9kPVK6PrjKx05VK914",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "description",
+									"value": "First possible solution for our issue",
+									"description": "CharField(max_length=2048)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/issues/3/comments/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"issues",
+								"3",
+								"comments",
+								""
+							]
+						},
+						"description": "StartFragment\n\n  \nCreate a comment on an issue (params:description)\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "e44ed88f-c037-47f5-a0c9-0da5e39086ed",
+							"name": "comment_create_output",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDc0ODY1LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjE4NmEzNDQ1NjNkNTRhMTU4NGE5ODVlZjBhNTBjZTExIiwidXNlcl9pZCI6NX0.NsfT6I2HWmUEPV-c6fXPmLzoY9kPVK6PrjKx05VK914",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "description",
+											"value": "First possible solution for our issue",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/3/issues/3/comments/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										"3",
+										"issues",
+										"3",
+										"comments",
+										""
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 22:57:24 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, POST"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "147"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"comment_id\": 2,\n    \"created_time\": \"2023-06-22T22:57:24.813627Z\",\n    \"description\": \"First possible solution for our issue\",\n    \"author_user_id\": 5,\n    \"issue_id\": 3\n}"
+						}
+					]
+				},
+				{
+					"name": "Comment View Detail",
+					"id": "5a82251b-29b2-418e-b8f4-3c673cc69a58",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDc0ODY1LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjE4NmEzNDQ1NjNkNTRhMTU4NGE5ODVlZjBhNTBjZTExIiwidXNlcl9pZCI6NX0.NsfT6I2HWmUEPV-c6fXPmLzoY9kPVK6PrjKx05VK914",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/issues/3/comments/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"issues",
+								"3",
+								"comments",
+								"2"
+							]
+						},
+						"description": "StartFragment\n\n```\nRetrieve a comment (comment) with its id\n```\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "f9f50629-8cad-4336-9373-377cdca919f6",
+							"name": "comment_retrieve_output",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDc0ODY1LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjE4NmEzNDQ1NjNkNTRhMTU4NGE5ODVlZjBhNTBjZTExIiwidXNlcl9pZCI6NX0.NsfT6I2HWmUEPV-c6fXPmLzoY9kPVK6PrjKx05VK914",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/3/issues/3/comments/2",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										"3",
+										"issues",
+										"3",
+										"comments",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 22:58:42 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, DELETE"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "147"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"comment_id\": 2,\n    \"created_time\": \"2023-06-22T22:57:24.813627Z\",\n    \"description\": \"First possible solution for our issue\",\n    \"author_user_id\": 5,\n    \"issue_id\": 3\n}"
+						}
+					]
+				},
+				{
+					"name": "Comment Update",
+					"id": "00a56724-c4b9-4e93-a684-aa0746f9bff7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDc0ODY1LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjE4NmEzNDQ1NjNkNTRhMTU4NGE5ODVlZjBhNTBjZTExIiwidXNlcl9pZCI6NX0.NsfT6I2HWmUEPV-c6fXPmLzoY9kPVK6PrjKx05VK914",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "description",
+									"value": "update the solution",
+									"description": "CharField(max_length=2048)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/issues/3/comments/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"issues",
+								"3",
+								"comments",
+								"2"
+							]
+						},
+						"description": "StartFragment\n\n  \nUpdate a comment on an issue (params:description)\n\nEndFragment"
+					},
+					"response": [
+						{
+							"id": "9b075188-465a-487e-8d33-b6128b14a028",
+							"name": "comment_update_output",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDc0ODY1LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjE4NmEzNDQ1NjNkNTRhMTU4NGE5ODVlZjBhNTBjZTExIiwidXNlcl9pZCI6NX0.NsfT6I2HWmUEPV-c6fXPmLzoY9kPVK6PrjKx05VK914",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "description",
+											"value": "update the solution",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/projects/3/issues/3/comments/2",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"projects",
+										"3",
+										"issues",
+										"3",
+										"comments",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 22 Jun 2023 22:59:20 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "WSGIServer/0.2 CPython/3.11.3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Vary",
+									"value": "Accept"
+								},
+								{
+									"key": "Allow",
+									"value": "GET, PUT, DELETE"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"description\": \"update the solution\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Comment Delete",
+					"id": "60cf3360-d3b9-4279-9f6f-8c329a890527",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg3NDc0ODY1LCJpYXQiOjE2ODc0NjY1MTQsImp0aSI6IjE4NmEzNDQ1NjNkNTRhMTU4NGE5ODVlZjBhNTBjZTExIiwidXNlcl9pZCI6NX0.NsfT6I2HWmUEPV-c6fXPmLzoY9kPVK6PrjKx05VK914",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/projects/3/issues/3/comments/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"projects",
+								"3",
+								"issues",
+								"3",
+								"comments",
+								"2"
+							]
+						},
+						"description": "StartFragment\n\n```\nDelete a comment\n```\n\nEndFragment"
+					},
+					"response": []
+				}
+			],
+			"id": "1d44cfcb-9ce1-4aab-8a41-81ff34fe1187",
+			"description": "Comment \\[list, retrieve, create, put, delete\\]"
+		}
+	]
+}
