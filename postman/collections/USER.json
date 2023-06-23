@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "b4dc4519-9602-4dff-bd72-31050e371c41",
 		"name": "USER",
+		"description": "User Contributor from a project \\[list, create, delete\\]",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_uid": "27948551-b4dc4519-9602-4dff-bd72-31050e371c41"
 	},

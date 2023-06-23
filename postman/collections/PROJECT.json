@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "01311a13-6743-4acd-bbf5-648e67124547",
 		"name": "PROJECT",
+		"description": "Project \\[list, retrieve, create, put, delete\\]",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_uid": "27948551-01311a13-6743-4acd-bbf5-648e67124547"
 	},

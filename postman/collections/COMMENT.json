@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "aeb644fc-dccd-44a2-b31f-b3eed8f760ce",
 		"name": "COMMENT",
+		"description": "Comment \\[list, retrieve, create, put, delete\\]",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_uid": "27948551-aeb644fc-dccd-44a2-b31f-b3eed8f760ce"
 	},
