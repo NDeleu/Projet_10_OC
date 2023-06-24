@@ -214,4 +214,4 @@ _______________________________________________________________________________
 
 DOCUMENTATION :
 
-Documentation technique Postman sur les Endpoints et leurs logiques : 
+Documentation technique Postman sur les Endpoints et leurs logiques : https://documenter.getpostman.com/view/27948551/2s93z6diwa
