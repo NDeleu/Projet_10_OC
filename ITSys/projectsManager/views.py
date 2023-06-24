@@ -6,7 +6,7 @@ from .permissions import CategoryViewsetPermission, \
     ContributorsViewsetPermission
 
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, \
-    HTTP_200_OK
+    HTTP_200_OK, HTTP_404_NOT_FOUND
 
 from django.db import transaction, IntegrityError
 
@@ -103,9 +103,9 @@ class UserViewset(MultipleSerializerMixin, ModelViewSet):
 
     @transaction.atomic
     def create(self, request, *args, **kwargs):
-        try:
-            add_user = get_user_model().objects.filter(email=request.data['email'])[0]
-            if add_user:
+        if get_user_model().objects.filter(email=request.data['email']):
+            try:
+                add_user = get_user_model().objects.filter(email=request.data['email'])[0]
                 contributor = Contributors.objects.create(
                     user_id=add_user,
                     project_id=Project.objects.filter(project_id=self.kwargs['projects_pk'])[0],
@@ -120,27 +120,30 @@ class UserViewset(MultipleSerializerMixin, ModelViewSet):
                     'role': 'CONTRIBUTOR'
                     }
                 return Response(response, status=HTTP_201_CREATED)
+            except IntegrityError:
+                response = {'error': 'User with this email already added'}
+                return Response(response, status=HTTP_400_BAD_REQUEST)
+        else:
             response = {'errors': 'No user responds to this email'}
-            return Response(response, status=HTTP_400_BAD_REQUEST)
-        except IntegrityError:
-            response = {'error': 'User with this email already added'}
             return Response(response, status=HTTP_400_BAD_REQUEST)
 
     @transaction.atomic
     def destroy(self, request, *args, **kwargs):
-        del_user = get_user_model().objects.filter(user_id=self.kwargs['pk'])[0]
-        if del_user:
+        if get_user_model().objects.filter(user_id=self.kwargs['pk']):
+            del_user = get_user_model().objects.filter(user_id=self.kwargs['pk'])[0]
             if del_user == request.user:
                 response = {'errors': 'Main author user cannot be deleted'}
                 return Response(response, status=HTTP_400_BAD_REQUEST)
-            del_contributor = Contributors.objects.filter(user_id=self.kwargs['pk'], project_id=self.kwargs['projects_pk'])[0]
-            if del_contributor:
+            if Contributors.objects.filter(user_id=self.kwargs['pk'], project_id=self.kwargs['projects_pk']):
+                del_contributor = Contributors.objects.filter(user_id=self.kwargs['pk'], project_id=self.kwargs['projects_pk'])[0]
                 del_contributor.delete()
                 return Response()
-            response = {'errors': 'Main author is not a contributor on this project'}
+            else:
+                response = {'errors': 'This user is not a contributor on this project'}
+                return Response(response, status=HTTP_400_BAD_REQUEST)
+        else:
+            response = {'errors': 'No user responds to this email'}
             return Response(response, status=HTTP_400_BAD_REQUEST)
-        response = {'errors': 'No user responds to this email'}
-        return Response(response, status=HTTP_400_BAD_REQUEST)
 
 
 class IssueViewset(MultipleSerializerMixin, ModelViewSet):
@@ -194,20 +197,24 @@ class IssueViewset(MultipleSerializerMixin, ModelViewSet):
 
     @transaction.atomic
     def update(self, request, *args, **kwargs):
-        serializer = IssueCreateSerializer(data=request.data)
-        if serializer.is_valid():
-            if serializer.validated_data['email_assignee']:
-                if get_user_model().objects.filter(email=serializer.validated_data['email_assignee']).exists():
-                    assignee_user_id = get_user_model().objects.filter(email=serializer.validated_data['email_assignee'])[0]
+        if Issue.objects.filter(issue_id=self.kwargs['pk']):
+            serializer = IssueCreateSerializer(data=request.data)
+            if serializer.is_valid():
+                if serializer.validated_data['email_assignee']:
+                    if get_user_model().objects.filter(email=serializer.validated_data['email_assignee']).exists():
+                        assignee_user_id = get_user_model().objects.filter(email=serializer.validated_data['email_assignee'])[0]
+                    else:
+                        assignee_user_id = Issue.objects.filter(issue_id=self.kwargs['pk'])[0].assignee_user_id
                 else:
                     assignee_user_id = Issue.objects.filter(issue_id=self.kwargs['pk'])[0].assignee_user_id
-            else:
-                assignee_user_id = Issue.objects.filter(issue_id=self.kwargs['pk'])[0].assignee_user_id
-            issue = Issue.objects.filter(issue_id=self.kwargs['pk'])[0]
-            issue.assignee_user_id = assignee_user_id
-            issue.save()
-            return super(IssueViewset, self).update(request, *args, **kwargs)
-        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+                issue = Issue.objects.filter(issue_id=self.kwargs['pk'])[0]
+                issue.assignee_user_id = assignee_user_id
+                issue.save()
+                return super(IssueViewset, self).update(request, *args, **kwargs)
+            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        else:
+            response = {'errors': 'issue not found'}
+            return Response(response, status=HTTP_404_NOT_FOUND)
 
     def destroy(self, request, *args, **kwargs):
         return super(IssueViewset, self).destroy(request, *args, **kwargs)
